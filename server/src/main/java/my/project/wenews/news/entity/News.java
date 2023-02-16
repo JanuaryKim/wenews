@@ -1,28 +1,34 @@
 package my.project.wenews.news.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import my.project.wenews.member.entity.Member;
-
 import javax.persistence.*;
-import java.sql.Clob;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 public class News {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long news_id;
+    private Long newsId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @Column(length = 20)
-    private String news_title;
+    private String newsTitle;
 
     @Column(columnDefinition = "TEXT")
-    private String news_content;
+    private String newsContents;
 
     @Column(length = 100)
-    private String news_tag;
+    private String newsTags;
 
 }
