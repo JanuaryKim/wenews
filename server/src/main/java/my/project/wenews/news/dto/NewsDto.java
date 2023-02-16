@@ -11,8 +11,8 @@ public class NewsDto {
     @Builder
     public static class Post {
 
-        private String title;
-        private String content;
-        private String[] tags;
+        private String newsTitle;
+        private String newsContents;
+        private String[] newsTags;
     }
 }
