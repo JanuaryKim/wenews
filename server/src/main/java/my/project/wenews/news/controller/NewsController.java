@@ -1,22 +1,32 @@
 package my.project.wenews.news.controller;
 
+import lombok.RequiredArgsConstructor;
 import my.project.wenews.news.dto.NewsDto;
+import my.project.wenews.news.entity.News;
+import my.project.wenews.news.mapper.NewsMapper;
+import my.project.wenews.news.service.NewsService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+@RequiredArgsConstructor
 @RestController
 public class NewsController {
 
-    @RequestMapping(value = "/api/auth/news", method = RequestMethod.POST)
-    public ResponseEntity postNews(@RequestPart(value = "news-dto", required = true) NewsDto.Post newsPost) {
+    private final NewsService newsService;
+    private final NewsMapper newsMapper;
 
+    @PostMapping(value = "/api/auth/news", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity postNews(
+            @RequestPart(value = "news-dto", required = true) NewsDto.Post newsPost,
+            @RequestPart(required = false)MultipartFile[] newsImages
+
+    ) {
+
+        News news = newsMapper.newsDtoPostToNews(newsPost);
 
         return new ResponseEntity("hello", HttpStatus.OK);
-
     }
-
 }
