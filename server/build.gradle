@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "org.flywaydb.flyway" version "7.2.0"  // 1)
 }
 
 group = 'my.project'
@@ -36,6 +37,7 @@ dependencies {
     //mapper
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+    testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
     //flyway
     implementation("org.flywaydb:flyway-mysql:8.2.1")
@@ -43,4 +45,11 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+flyway {  // 3)
+    url = 'jdbc:mysql://localhost:3306/wenews?useSSL=false&serverTimezone=UTC&characterEncoding=utf8'
+    user = 'root'
+    password = 'qwer1234'
+    // driver = 'com.mysql.jdbc.Driver'  기본으로 등록되어있다.
 }
