@@ -1,6 +1,7 @@
 package my.project.wenews.news.controller;
 
 import lombok.RequiredArgsConstructor;
+import my.project.wenews.member.entity.Member;
 import my.project.wenews.news.dto.NewsDto;
 import my.project.wenews.news.entity.News;
 import my.project.wenews.news.mapper.NewsMapper;
@@ -24,9 +25,10 @@ public class NewsController {
             @RequestPart(required = false)MultipartFile[] newsImages
 
     ) {
-
-        News news = newsMapper.newsDtoPostToNews(newsPost);
-
+        Member member = new Member(1L);
+        News news = newsMapper.newsDtoPostToNews(newsPost, member);
+        News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPost);
+        newsService.createNews(tagAddedNews);
         return new ResponseEntity("hello", HttpStatus.OK);
     }
 }
