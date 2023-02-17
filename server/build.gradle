@@ -41,6 +41,9 @@ dependencies {
 
     //flyway
     implementation("org.flywaydb:flyway-mysql:8.2.1")
+
+    //gson
+    implementation 'com.google.code.gson:gson'
 }
 
 tasks.named('test') {
