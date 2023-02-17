@@ -1,12 +1,10 @@
 package my.project.wenews.news.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import my.project.wenews.member.entity.Member;
 import javax.persistence.*;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
