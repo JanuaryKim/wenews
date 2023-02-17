@@ -1,7 +1,16 @@
 package my.project.wenews.member.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Member {
 
@@ -19,4 +28,9 @@ public class Member {
     private String memberEmail;
 
     private Byte memberAge;
+
+
+    public Member(Long memberId) {
+        this.memberId = memberId;
+    }
 }
