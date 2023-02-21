@@ -33,4 +33,18 @@ public class Member {
     public Member(Long memberId) {
         this.memberId = memberId;
     }
+
+    public static Member newInstance(Member member) {
+        return new Member(member);
+    }
+
+    public Member(Member member) {
+
+        this.memberId = member.memberId;
+        this.memberNickname = member.memberNickname;
+        this.memberPassword = member.memberPassword;
+        this.memberEmail = member.memberEmail;
+        this.memberAge = member.memberAge;
+    }
+
 }

@@ -4,11 +4,11 @@ import lombok.*;
 import my.project.wenews.member.entity.Member;
 import javax.persistence.*;
 
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @Entity
 public class News {
 
@@ -29,4 +29,15 @@ public class News {
     @Column(length = 100)
     private String newsTags;
 
+    public static News newInstance(News news) {
+        return new News(news);
+    }
+
+    public News(News news) {
+        this.newsId = news.newsId;
+        this.member = new Member(news.member);
+        this.newsTitle = news.newsTitle;
+        this.newsContents = news.newsContents;
+        this.newsTags = news.getNewsTags();
+    }
 }
