@@ -1,0 +1,81 @@
+package my.project.wenews.news.controller;
+
+
+import com.google.gson.Gson;
+import my.project.wenews.member.entity.Member;
+import my.project.wenews.news.dto.NewsDto;
+import my.project.wenews.news.entity.News;
+import my.project.wenews.news.mapper.NewsMapper;
+import my.project.wenews.news.service.NewsService;
+import my.project.wenews.news.stub.NewsDtoStub;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import java.nio.charset.StandardCharsets;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+@Transactional
+@SpringBootTest
+@AutoConfigureMockMvc
+public class NewsControllerTest {
+
+    @Autowired
+    private MockMvc mvc;
+
+    @Autowired
+    private Gson gson;
+
+    @MockBean
+    private NewsService newsService;
+
+    @MockBean
+    private NewsMapper newsMapper;
+
+    @Test
+    public void testCreateNews() throws Exception {
+
+        //given
+        NewsDto.Post newsPost = (NewsDto.Post) NewsDtoStub.newsMap.get("POST");
+        String content = gson.toJson(newsPost);
+
+        NewsDto.Response response = new NewsDto.Response();
+        response.setNewsId(1L);
+        response.setMemberNickname("테스터");
+        response.setNewsTitle("테스트 제목");
+        response.setNewsContents("테스트 내용");
+        response.setNewsTags(new String[]{"C#","Java"});
+
+
+        given(newsMapper.newsDtoPostToNews(any(NewsDto.Post.class), any(Member.class))).willReturn(new News());
+        given(newsMapper.newsTagArrToNewsTagStr(any(News.class), any(NewsDto.Post.class))).willReturn(new News());
+        given(newsService.createNews(any(News.class))).willReturn(new News());
+        given(newsMapper.newsToNewsDtoResponse(any(News.class))).willReturn(new NewsDto.Response());
+        given(newsMapper.newsTagStrToNewsTagArr(any(NewsDto.Response.class), any(News.class))).willReturn(response);
+
+
+        //when
+        MockMultipartFile mockMultipartFile =
+                new MockMultipartFile(
+                        "news-dto",
+                        "news-dto",
+                        "application/json",content.getBytes(StandardCharsets.UTF_8));
+
+        //then
+        mvc.perform(multipart("/api/auth/news").file(mockMultipartFile))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.newsId").value("1"))
+                .andExpect(jsonPath("$.memberNickname").value("테스터"));
+    }
+
+
+}

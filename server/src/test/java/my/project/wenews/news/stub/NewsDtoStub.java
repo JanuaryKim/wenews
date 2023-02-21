@@ -1,12 +1,14 @@
 package my.project.wenews.news.stub;
 
 import my.project.wenews.news.dto.NewsDto;
+
+import java.util.HashMap;
 import java.util.Map;
 
 
-public class NewsStub {
+public class NewsDtoStub {
 
-    public static Map<String, Object> newsMap;
+    public static Map<String, Object> newsMap = new HashMap<>();
 
     static{
 
