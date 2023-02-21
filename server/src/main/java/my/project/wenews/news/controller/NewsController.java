@@ -28,7 +28,10 @@ public class NewsController {
         Member member = new Member(1L);
         News news = newsMapper.newsDtoPostToNews(newsPost, member);
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPost);
-        newsService.createNews(tagAddedNews);
-        return new ResponseEntity("hello", HttpStatus.OK);
+        News createdNews = newsService.createNews(tagAddedNews);
+        NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(createdNews);
+        NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, createdNews);
+
+        return new ResponseEntity(response, HttpStatus.CREATED);
     }
 }
