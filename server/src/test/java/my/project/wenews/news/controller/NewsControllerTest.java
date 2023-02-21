@@ -11,11 +11,10 @@ import my.project.wenews.news.stub.NewsDtoStub;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import java.nio.charset.StandardCharsets;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -24,8 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@Transactional
-@SpringBootTest
+
+@WebMvcTest
 @AutoConfigureMockMvc
 public class NewsControllerTest {
 
@@ -74,7 +73,11 @@ public class NewsControllerTest {
         mvc.perform(multipart("/api/auth/news").file(mockMultipartFile))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.newsId").value("1"))
-                .andExpect(jsonPath("$.memberNickname").value("테스터"));
+                .andExpect(jsonPath("$.memberNickname").value("테스터"))
+                .andExpect(jsonPath("$.newsTitle").value("테스트 제목"))
+                .andExpect(jsonPath("$.newsContents").value("테스트 내용"))
+                .andExpect(jsonPath("$.newsTags.[0]").value("C#"))
+                .andExpect(jsonPath("$.newsTags.[1]").value("Java"));
     }
 
 
