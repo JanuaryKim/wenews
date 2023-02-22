@@ -26,7 +26,7 @@ public class NewsServiceTest {
     private NewsRepository newsRepository;
 
     @Test
-    void testCreateNews() throws CloneNotSupportedException {
+    void testCreateNews() {
 
         Member member = MemberStub.memberList.get(0);
         News param = News.builder()
