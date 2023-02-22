@@ -9,11 +9,15 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class NewsRepositoryTest {
 
     @Autowired
@@ -29,11 +33,13 @@ public class NewsRepositoryTest {
         String nickname = "테스터";
         String email = "tester@gmail.com";
         String password = "1234";
+        byte age = 23;
 
 
         Member tester = Member.builder().memberId(id)
                 .memberNickname(nickname)
                 .memberEmail(email)
+                .memberAge(age)
                 .memberPassword(password).build();
 
         memberRepository.save(tester);
