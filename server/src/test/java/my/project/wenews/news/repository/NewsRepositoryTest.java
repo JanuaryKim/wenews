@@ -3,6 +3,7 @@ package my.project.wenews.news.repository;
 import my.project.wenews.member.entity.Member;
 import my.project.wenews.member.repository.MemberRepository;
 import my.project.wenews.news.entity.News;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -43,12 +44,12 @@ public class NewsRepositoryTest {
                 .memberPassword(password).build();
 
         memberRepository.save(tester);
-//
-//        Assertions.assertThat(savedMember.getMemberId()).isEqualTo(id);
-//        Assertions.assertThat(savedMember.getMemberNickname()).isEqualTo(nickname);
-//        Assertions.assertThat(savedMember.getMemberEmail()).isEqualTo(email);
-//        Assertions.assertThat(savedMember.getMemberPassword()).isEqualTo(password);
 
+    }
+
+    @AfterAll
+    void cleanTables() {
+        memberRepository.deleteAll();
     }
 
     @Test
