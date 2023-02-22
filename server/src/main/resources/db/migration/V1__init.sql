@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `wenews`.`member`(
+CREATE TABLE IF NOT EXISTS member(
 
     `member_id` BIGINT NOT NULL AUTO_INCREMENT,
     `member_nickname` VARCHAR(10),
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `wenews`.`member`(
     PRIMARY KEY (`member_id`));
 
 
-CREATE TABLE IF NOT EXISTS `wenews`.`news`(
+CREATE TABLE IF NOT EXISTS news(
 
     `news_id` BIGINT NOT NULL AUTO_INCREMENT,
     `member_id` BIGINT,
