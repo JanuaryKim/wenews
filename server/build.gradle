@@ -47,6 +47,12 @@ dependencies {
 
     // guava
     implementation 'com.google.guava:guava:31.1-jre'
+
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // OAuth 2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
