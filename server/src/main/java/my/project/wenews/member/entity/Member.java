@@ -1,6 +1,7 @@
 package my.project.wenews.member.entity;
 
 import lombok.*;
+import my.project.wenews.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
