@@ -15,11 +15,8 @@ import javax.persistence.*;
 public class Member extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
-
-    @Column(length = 10)
-    private String memberNickname;
+    @Column(unique = true, length = 30)
+    private String memberId;
 
     @Column(length = 12)
     private String memberPassword;
@@ -34,7 +31,7 @@ public class Member extends BaseTimeEntity {
     @Column(length = 15)
     private Role role;
 
-    public Member(Long memberId) {
+    public Member(String memberId) {
         this.memberId = memberId;
     }
 
@@ -45,7 +42,6 @@ public class Member extends BaseTimeEntity {
     public Member(Member member) {
 
         this.memberId = member.memberId;
-        this.memberNickname = member.memberNickname;
         this.memberPassword = member.memberPassword;
         this.memberEmail = member.memberEmail;
         this.memberAge = member.memberAge;

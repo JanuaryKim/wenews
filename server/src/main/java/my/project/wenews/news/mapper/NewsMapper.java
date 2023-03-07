@@ -39,7 +39,6 @@ public interface NewsMapper {
     }
 
     @Mapping(target = "newsTags", ignore = true) //매핑할 source인 Post에서 newsTags는 제외 시킴
-    @Mapping(target = "memberNickname", source = "news.member.memberNickname")
     NewsDto.Response newsToNewsDtoResponse(News news);
 
     //매핑할 로직을 직접 입력해야 하므로 default로 정의

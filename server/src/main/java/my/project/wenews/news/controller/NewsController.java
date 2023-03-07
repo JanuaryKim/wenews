@@ -25,7 +25,7 @@ public class NewsController {
             @RequestPart(required = false)MultipartFile[] newsImages
 
     ) {
-        Member member = new Member(1L);
+        Member member = new Member("dd");
         News news = newsMapper.newsDtoPostToNews(newsPost, member);
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPost);
         News createdNews = newsService.createNews(tagAddedNews);

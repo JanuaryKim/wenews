@@ -30,7 +30,7 @@ public class NewsRepositoryTest {
     @BeforeAll
     void saveMember() {
 
-        Long id = 1L;
+        String id = "tester@google";
         String nickname = "테스터";
         String email = "tester@gmail.com";
         String password = "1234";
@@ -38,7 +38,6 @@ public class NewsRepositoryTest {
 
 
         Member tester = Member.builder().memberId(id)
-                .memberNickname(nickname)
                 .memberEmail(email)
                 .memberAge(age)
                 .memberPassword(password).build();
@@ -59,7 +58,7 @@ public class NewsRepositoryTest {
         String contents = "테스트 내용";
         String tags = "|C#|Java|";
 
-        Member tester = Member.builder().memberId(1L).build();
+        Member tester = Member.builder().memberId("tester@google").build();
         News news = News.builder()
                 .newsTitle(title)
                 .newsContents(contents)
