@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.nio.charset.StandardCharsets;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false) //security 관련 사항을 테스트에서 제외시키기 위해.. build.gradle에 oauth와 spring security가 추가되어 있는데, api 레벨의 빈들만 등록되어서 내가 설정한 SecurityFilterChain 빈이 등록되지 못해서 무조건 권한을 요청함
 public class NewsControllerTest {
 
     @Autowired
