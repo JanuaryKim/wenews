@@ -1,12 +1,13 @@
 package my.project.wenews.member.entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import my.project.wenews.entity.BaseTimeEntity;
 import my.project.wenews.member.role.Role;
 
 import javax.persistence.*;
 
-@Builder
+@SuperBuilder
 @Setter
 @Getter
 @NoArgsConstructor

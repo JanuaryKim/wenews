@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ActiveProfiles("test")
@@ -58,12 +60,16 @@ public class NewsRepositoryTest {
         String contents = "테스트 내용";
         String tags = "|C#|Java|";
 
+        LocalDateTime localDateTime = LocalDateTime.now();
         Member tester = Member.builder().memberId("tester@google").build();
         News news = News.builder()
                 .newsTitle(title)
                 .newsContents(contents)
                 .member(tester)
-                .newsTags(tags).build();
+                .newsTags(tags)
+                .createdAt(localDateTime)
+                .modifiedAt(localDateTime)
+                .build();
         News savedNews = newsRepository.save(news);
         assertThat(savedNews.getNewsTitle()).isEqualTo(title);
         assertThat(savedNews.getNewsContents()).isEqualTo(contents);

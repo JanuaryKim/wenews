@@ -1,6 +1,7 @@
 package my.project.wenews.news.mapper;
 
 import my.project.wenews.member.entity.Member;
+import my.project.wenews.news.dto.NewsBaseDto;
 import my.project.wenews.news.dto.NewsDto;
 import my.project.wenews.news.entity.News;
 import org.mapstruct.Mapper;
@@ -17,8 +18,10 @@ public interface NewsMapper {
     News newsDtoPostToNews(NewsDto.Post post, Member member);
 
 
+
+
     //매핑할 로직을 직접 입력해야 하므로 default로 정의
-    default News newsTagArrToNewsTagStr(News news, NewsDto.Post post) {
+    default News newsTagArrToNewsTagStr(News news, NewsBaseDto post) {
         String[] newsTags = post.getNewsTags();
         Arrays.sort(newsTags);
 
@@ -58,10 +61,8 @@ public interface NewsMapper {
         return response;
     }
 
-    default public int test(int a) {
-        System.out.println();
-        return a;
-    }
-
+    @Mapping(target = "newsTags", ignore = true) //매핑할 source인 Post에서 newsTags는 제외 시킴
+    @Mapping(target = "member", source = "member") //member인자를 News에 member필드에 그대로 set 시킴
+    News newsDtoPutToNews(NewsDto.Put put, Member member);
 
 }

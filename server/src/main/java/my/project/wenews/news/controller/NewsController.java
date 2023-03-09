@@ -21,8 +21,8 @@ public class NewsController {
 
     @PostMapping(value = "/api/auth/news", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postNews(
-            @RequestPart(value = "news-dto", required = true) NewsDto.Post newsPost,
-            @RequestPart(required = false)MultipartFile[] newsImages
+            @RequestPart(value = "news-dto") NewsDto.Post newsPost,
+            @RequestPart(value = "news-images", required = false) MultipartFile[] newsImages
 
     ) {
         Member member = new Member("dd");
@@ -33,5 +33,34 @@ public class NewsController {
         NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, createdNews);
 
         return new ResponseEntity(response, HttpStatus.CREATED);
+    }
+
+
+    @GetMapping(value = "/api/news/{id}")
+    public ResponseEntity getNews(@PathVariable Long id) {
+
+        News news = newsService.readNews(id);
+        NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(news);
+        NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, news);
+
+        return new ResponseEntity(response,HttpStatus.OK);
+    }
+
+
+    @PutMapping(value = "/api/news/{id}",  consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity modifyNews(
+            @PathVariable Long id,
+            @RequestPart(value = "news-dto") NewsDto.Put newsPut,
+            @RequestPart(value = "news-images", required = false) MultipartFile[] newsImages) {
+
+            Member member = new Member("dd");
+            News news = newsMapper.newsDtoPutToNews(newsPut, member);
+            News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPut);
+            News createdNews = newsService.createNews(tagAddedNews);
+            NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(createdNews);
+            NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, createdNews);
+
+            return new ResponseEntity(response, HttpStatus.CREATED);
+
     }
 }

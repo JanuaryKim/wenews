@@ -1,12 +1,13 @@
 package my.project.wenews.news.entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import my.project.wenews.entity.BaseTimeEntity;
 import my.project.wenews.member.entity.Member;
 import javax.persistence.*;
 
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -40,5 +41,14 @@ public class News extends BaseTimeEntity {
         this.newsTitle = news.newsTitle;
         this.newsContents = news.newsContents;
         this.newsTags = news.getNewsTags();
+    }
+
+    public News updateNews(News updateNews) {
+
+        this.newsTitle = updateNews.newsTitle;
+        this.newsContents = updateNews.newsContents;
+        this.newsTags = updateNews.newsTags;
+
+        return this;
     }
 }

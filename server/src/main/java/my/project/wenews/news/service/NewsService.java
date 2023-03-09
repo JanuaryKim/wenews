@@ -19,4 +19,24 @@ public class NewsService {
 
         return savedNews;
     }
+
+    public News readNews(Long newsId) {
+
+        return verifyExistsNews(newsId);
+    }
+
+    public News updateNews(News updateNews) {
+
+        News readNews = verifyExistsNews(updateNews.getNewsId());
+
+        return readNews.updateNews(updateNews);
+    }
+
+    private News verifyExistsNews(Long id) {
+
+
+        return newsRepository.findById(id).orElseThrow(()-> new RuntimeException("존재하지 않는 뉴스"));
+    }
+
+
 }
