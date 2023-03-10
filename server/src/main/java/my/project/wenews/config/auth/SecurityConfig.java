@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .apply(new CustomFilterConfigurer())
                 .and()
-                .authorizeRequests().antMatchers("/api/auth/**").hasRole("USER")
+                .authorizeRequests()
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()

@@ -23,21 +23,29 @@ public interface NewsMapper {
     //매핑할 로직을 직접 입력해야 하므로 default로 정의
     default News newsTagArrToNewsTagStr(News news, NewsBaseDto post) {
         String[] newsTags = post.getNewsTags();
-        Arrays.sort(newsTags);
-
-        if(newsTags.length == 0)
+        if(newsTags == null || newsTags.length == 0)
             return news;
+
+        Arrays.sort(newsTags);
 
         StringBuilder sb = new StringBuilder();
 
         sb.append("|");
 
         for (String tag : newsTags) {
+
+            if(tag.equals(""))
+                continue;
+
             sb.append(tag);
             sb.append("|");
         }
 
-        news.setNewsTags(sb.toString());
+        if(sb.length() == 1)
+            news.setNewsTags(null);
+        else
+            news.setNewsTags(sb.toString());
+
         return news;
     }
 
@@ -46,6 +54,9 @@ public interface NewsMapper {
 
     //매핑할 로직을 직접 입력해야 하므로 default로 정의
     default NewsDto.Response newsTagStrToNewsTagArr(NewsDto.Response response, News news) {
+
+        if(news.getNewsTags() == null)
+            return response;
 
         String tagsStr = news.getNewsTags();
 

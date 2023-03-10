@@ -10,6 +10,11 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+# mustache korean encoding
+server:
+  servlet:
+    encoding:
+      force-response: true
 
 
 

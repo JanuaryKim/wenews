@@ -22,10 +22,10 @@ public class NewsController {
     @PostMapping(value = "/api/auth/news", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postNews(
             @RequestPart(value = "news-dto") NewsDto.Post newsPost,
-            @RequestPart(value = "news-images", required = false) MultipartFile[] newsImages
+            @RequestPart(value = "news-images", required = false) MultipartFile newsImages
 
     ) {
-        Member member = new Member("dd");
+        Member member = new Member("tester@google");
         News news = newsMapper.newsDtoPostToNews(newsPost, member);
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPost);
         News createdNews = newsService.createNews(tagAddedNews);
@@ -51,7 +51,7 @@ public class NewsController {
     public ResponseEntity modifyNews(
             @PathVariable Long id,
             @RequestPart(value = "news-dto") NewsDto.Put newsPut,
-            @RequestPart(value = "news-images", required = false) MultipartFile[] newsImages) {
+            @RequestPart(value = "news-images", required = false) MultipartFile newsImages) {
 
             Member member = new Member("dd");
             News news = newsMapper.newsDtoPutToNews(newsPut, member);
