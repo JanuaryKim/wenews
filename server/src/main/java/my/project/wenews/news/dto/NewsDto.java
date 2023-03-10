@@ -3,6 +3,8 @@ package my.project.wenews.news.dto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+
 
 public class NewsDto {
 
@@ -25,10 +27,11 @@ public class NewsDto {
     public static class Response{
 
         private Long newsId;
-        private String memberNickname;
+        private String memberEmail;
         private String newsTitle;
         private String newsContents;
         private String[] newsTags;
+        private LocalDateTime modifiedAt;
     }
 
     @Getter

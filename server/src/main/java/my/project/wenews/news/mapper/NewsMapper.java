@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface NewsMapper {
@@ -50,6 +51,7 @@ public interface NewsMapper {
     }
 
     @Mapping(target = "newsTags", ignore = true) //매핑할 source인 Post에서 newsTags는 제외 시킴
+    @Mapping(target = "memberEmail", source = "member.memberEmail")
     NewsDto.Response newsToNewsDtoResponse(News news);
 
     //매핑할 로직을 직접 입력해야 하므로 default로 정의
@@ -75,5 +77,8 @@ public interface NewsMapper {
     @Mapping(target = "newsTags", ignore = true) //매핑할 source인 Post에서 newsTags는 제외 시킴
     @Mapping(target = "member", source = "member") //member인자를 News에 member필드에 그대로 set 시킴
     News newsDtoPutToNews(NewsDto.Put put, Member member);
+
+
+    List<NewsDto.Response> newsListToNewsDtoResponseList(List<News> newsList);
 
 }

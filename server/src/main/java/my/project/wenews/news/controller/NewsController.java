@@ -47,20 +47,20 @@ public class NewsController {
     }
 
 
-    @PutMapping(value = "/api/news/{id}",  consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "/api/auth/news/{id}",  consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity modifyNews(
             @PathVariable Long id,
             @RequestPart(value = "news-dto") NewsDto.Put newsPut,
             @RequestPart(value = "news-images", required = false) MultipartFile newsImages) {
 
-            Member member = new Member("dd");
+            Member member = new Member("tester@google");
             News news = newsMapper.newsDtoPutToNews(newsPut, member);
             News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPut);
-            News createdNews = newsService.createNews(tagAddedNews);
-            NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(createdNews);
-            NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, createdNews);
+            News updatedNews = newsService.updateNews(tagAddedNews, id);
+            NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(updatedNews);
+            NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, updatedNews);
 
-            return new ResponseEntity(response, HttpStatus.CREATED);
+            return new ResponseEntity(response, HttpStatus.OK);
 
     }
 }

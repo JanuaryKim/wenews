@@ -50,7 +50,7 @@ public class NewsControllerTest {
 
         NewsDto.Response response = new NewsDto.Response();
         response.setNewsId(1L);
-        response.setMemberNickname("테스터");
+        response.setMemberEmail("테스터");
         response.setNewsTitle("테스트 제목");
         response.setNewsContents("테스트 내용");
         response.setNewsTags(new String[]{"C#","Java"});

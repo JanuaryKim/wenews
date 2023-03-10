@@ -8,6 +8,33 @@
 			<a href="/news/save" role="button" class="btn btn-primary"> 뉴스 등록 </a>
 		</div>
 	</div>
+
+
+	<br>
+	<!-- 뉴스 목록 -->
+	<table class="table table-horizontal table-bordered">
+		<thead class="thead-strong">
+		<tr>
+			<th>게시글번호</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>최종수정일</th>
+		</tr>
+
+		</thead>
+
+		<tbody id="tbody">
+		{{#news}}
+			<tr>
+				<td>{{newsId}}</td>
+				<td><a href="/news/update/{{newsId}}">{{newsTitle}}</a></td>
+				<td>{{memberEmail}}</td>
+				<td>{{modifiedAt}}</td>
+			</tr>
+
+		{{/news}}
+		</tbody>
+	</table>
 </div>
 
 {{>layout/footer}}
