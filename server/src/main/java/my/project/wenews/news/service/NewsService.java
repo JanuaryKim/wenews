@@ -46,4 +46,10 @@ public class NewsService {
         List<News> newsList = newsRepository.findAll(Sort.by(Sort.Direction.DESC, "newsId"));
         return newsList;
     }
+
+    public void deleteNews(Long id) {
+
+        News readNews = newsRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        newsRepository.delete(readNews);
+    }
 }

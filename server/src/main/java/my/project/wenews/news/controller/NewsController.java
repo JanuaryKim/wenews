@@ -53,14 +53,22 @@ public class NewsController {
             @RequestPart(value = "news-dto") NewsDto.Put newsPut,
             @RequestPart(value = "news-images", required = false) MultipartFile newsImages) {
 
-            Member member = new Member("tester@google");
-            News news = newsMapper.newsDtoPutToNews(newsPut, member);
-            News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPut);
-            News updatedNews = newsService.updateNews(tagAddedNews, id);
-            NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(updatedNews);
-            NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, updatedNews);
+        Member member = new Member("tester@google");
+        News news = newsMapper.newsDtoPutToNews(newsPut, member);
+        News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPut);
+        News updatedNews = newsService.updateNews(tagAddedNews, id);
+        NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(updatedNews);
+        NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, updatedNews);
 
-            return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
+    }
 
+    @DeleteMapping(value = "/api/auth/news/{id}")
+    public ResponseEntity removeNews(
+            @PathVariable Long id){
+
+        newsService.deleteNews(id);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
