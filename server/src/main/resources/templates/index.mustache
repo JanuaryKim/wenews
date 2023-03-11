@@ -4,10 +4,22 @@
 
 <div class="col-md-12">
 	<div class="row">
-		<div class="col-md-6">
+		<a class="col-md-6">
 			<a href="/news/save" role="button" class="btn btn-primary"> 뉴스 등록 </a>
+
+			{{#userEmail}}
+				Logged in as: <span id="user">{{userEmail}}</span>
+					<a href="/member/auth/logout" class="btn btn-info active" role="button"/>Logout</a>
+			{{/userEmail}}
+
+			{{^userEmail}}
+				<a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+			{{/userEmail}}
 		</div>
+
+
 	</div>
+
 
 
 	<br>
@@ -19,6 +31,7 @@
 			<th>제목</th>
 			<th>작성자</th>
 			<th>최종수정일</th>
+			<th>태그</th>
 		</tr>
 
 		</thead>
@@ -30,6 +43,12 @@
 				<td><a href="/news/update/{{newsId}}">{{newsTitle}}</a></td>
 				<td>{{memberEmail}}</td>
 				<td>{{modifiedAt}}</td>
+
+				<td>
+				{{#newsTags}}
+					<span type="text" name="tags">{{.}} </span>
+				{{/newsTags}}
+				</td>
 			</tr>
 
 		{{/news}}
