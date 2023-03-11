@@ -19,18 +19,15 @@ public class Member extends BaseTimeEntity {
     @Column(unique = true, length = 30)
     private String memberId;
 
-    @Column(length = 12)
-    private String memberPassword;
-
     @Column(length = 100)
     private String memberEmail;
-
-    @Column
-    private Byte memberAge;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 15)
     private Role role;
+
+    @Column(length = 500)
+    private String memberPicture;
 
     public Member(String memberId) {
         this.memberId = memberId;
@@ -43,9 +40,9 @@ public class Member extends BaseTimeEntity {
     public Member(Member member) {
 
         this.memberId = member.memberId;
-        this.memberPassword = member.memberPassword;
         this.memberEmail = member.memberEmail;
-        this.memberAge = member.memberAge;
     }
+
+
 
 }
