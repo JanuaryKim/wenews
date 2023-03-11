@@ -1,4 +1,4 @@
-package my.project.wenews.config.auth.dto;
+package my.project.wenews.oauth2;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

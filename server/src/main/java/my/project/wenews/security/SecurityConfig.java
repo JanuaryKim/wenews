@@ -1,4 +1,4 @@
-package my.project.wenews.config.auth;
+package my.project.wenews.security;
 
 import lombok.RequiredArgsConstructor;
 import my.project.wenews.oauth2.Oauth2Service;
