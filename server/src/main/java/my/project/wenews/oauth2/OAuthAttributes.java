@@ -14,7 +14,7 @@ import java.util.Map;
 public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
-    private String memberId;
+    private String name;
     private String email;
     private String picture;
 
@@ -28,11 +28,11 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
 
-        String id = (String) attributes.get(userNameAttributeName);
+        String name = (String) attributes.get("name");
         String email = (String) attributes.get("email");
         String picture = (String) attributes.get("picture");
         return OAuthAttributes.builder()
-                .memberId(id+"@google")
+                .name(name)
                 .email(email)
                 .picture(picture)
                 .attributes(attributes)

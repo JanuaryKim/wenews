@@ -15,9 +15,8 @@ public class MemberStub {
     static {
 
         Member member = new Member();
-        member.setMemberId("wot00@naver");
+        member.setMemberId(1L);
         member.setMemberEmail("wot00@naver.com");
-        member.setMemberPassword("guerero");
 
         memberList = List.of(member);
     }

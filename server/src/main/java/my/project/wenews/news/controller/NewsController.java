@@ -25,7 +25,7 @@ public class NewsController {
             @RequestPart(value = "news-images", required = false) MultipartFile newsImages
 
     ) {
-        Member member = new Member("tester@google");
+        Member member = new Member(1L);
         News news = newsMapper.newsDtoPostToNews(newsPost, member);
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPost);
         News createdNews = newsService.createNews(tagAddedNews);
@@ -53,7 +53,7 @@ public class NewsController {
             @RequestPart(value = "news-dto") NewsDto.Put newsPut,
             @RequestPart(value = "news-images", required = false) MultipartFile newsImages) {
 
-        Member member = new Member("tester@google");
+        Member member = new Member(1L);
         News news = newsMapper.newsDtoPutToNews(newsPut, member);
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPut);
         News updatedNews = newsService.updateNews(tagAddedNews, id);

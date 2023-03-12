@@ -16,8 +16,11 @@ import javax.persistence.*;
 public class Member extends BaseTimeEntity {
 
     @Id
-    @Column(unique = true, length = 30)
-    private String memberId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long memberId;
+
+    @Column(length = 100)
+    private String memberName;
 
     @Column(length = 100)
     private String memberEmail;
@@ -29,12 +32,8 @@ public class Member extends BaseTimeEntity {
     @Column(length = 500)
     private String memberPicture;
 
-    public Member(String memberId) {
+    public Member(Long memberId) {
         this.memberId = memberId;
-    }
-
-    public static Member newInstance(Member member) {
-        return new Member(member);
     }
 
     public Member(Member member) {
@@ -44,5 +43,12 @@ public class Member extends BaseTimeEntity {
     }
 
 
+    public Member update(String memberEmail, String memberPicture, String memberName) {
+
+        this.memberName = memberName;
+        this.memberEmail = memberEmail;
+        this.memberPicture = memberPicture;
+        return this;
+    }
 
 }

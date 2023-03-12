@@ -32,17 +32,12 @@ public class NewsRepositoryTest {
     @BeforeAll
     void saveMember() {
 
-        String id = "tester@google";
-        String nickname = "테스터";
+        Long id = 1L;
         String email = "tester@gmail.com";
-        String password = "1234";
-        byte age = 23;
 
 
         Member tester = Member.builder().memberId(id)
-                .memberEmail(email)
-                .memberAge(age)
-                .memberPassword(password).build();
+                .memberEmail(email).build();
 
         memberRepository.save(tester);
 
@@ -61,7 +56,7 @@ public class NewsRepositoryTest {
         String tags = "|C#|Java|";
 
         LocalDateTime localDateTime = LocalDateTime.now();
-        Member tester = Member.builder().memberId("tester@google").build();
+        Member tester = Member.builder().memberId(1L).build();
         News news = News.builder()
                 .newsTitle(title)
                 .newsContents(contents)
