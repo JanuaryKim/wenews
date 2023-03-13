@@ -61,6 +61,16 @@ public class IndexController {
         return "news-update";
     }
 
+    @GetMapping(value = "/news/read/{id}")
+    public String newsRead(@PathVariable Long id, Model model) {
+
+        News news = newsService.readNews(id);
+        NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(news);
+        NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, news);
+        model.addAttribute("news",response);
+        return "news-read";
+    }
+
     private void delegateConvertTag(List<News> source, List<NewsDto.Response> destination) {
         for (int i = 0; i < source.size(); i++) {
             newsMapper.newsTagStrToNewsTagArr(destination.get(i), source.get(i));

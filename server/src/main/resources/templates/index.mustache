@@ -5,7 +5,10 @@
 <div class="col-md-12">
 	<div class="row">
 		<a class="col-md-6">
-			<a href="/news/save" role="button" class="btn btn-primary"> 뉴스 등록 </a>
+
+			{{#userName}}
+				<a href="/news/save" role="button" class="btn btn-primary"> 뉴스 등록 </a>
+			{{/userName}}
 
 			{{#userName}}
 				Logged in as: <span id="user">{{userName}}</span>
@@ -15,13 +18,11 @@
 			{{^userName}}
 				<a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
 			{{/userName}}
-		</div>
-
-
 	</div>
+</div>
 
 
-
+<div>
 	<br>
 	<!-- 뉴스 목록 -->
 	<table class="table table-horizontal table-bordered">
@@ -40,7 +41,14 @@
 		{{#news}}
 			<tr>
 				<td>{{newsId}}</td>
-				<td><a href="/news/update/{{newsId}}">{{newsTitle}}</a></td>
+				{{#userName}}
+					<td><a href="/news/update/{{newsId}}">{{newsTitle}}</a></td>
+				{{/userName}}
+
+				{{^userName}}
+					<td><a href="/news/read/{{newsId}}">{{newsTitle}}</a></td>
+				{{/userName}}
+
 				<td>{{memberEmail}}</td>
 				<td>{{modifiedAt}}</td>
 
