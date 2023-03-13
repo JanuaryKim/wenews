@@ -1,13 +1,12 @@
 package my.project.wenews.security;
 
 import lombok.RequiredArgsConstructor;
-import my.project.wenews.oauth2.Oauth2Service;
-import my.project.wenews.oauth2.Oauth2SuccessHandler;
+import my.project.wenews.oauth2.CustomOauth2Service;
+import my.project.wenews.oauth2.CustomOauth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -15,8 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    private final Oauth2SuccessHandler oauth2SuccessHandler;
-    private final Oauth2Service oauth2Service;
+    private final CustomOauth2SuccessHandler customOauth2SuccessHandler;
+    private final CustomOauth2Service customOauth2Service;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,10 +35,10 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .successHandler(oauth2SuccessHandler)
+                .successHandler(customOauth2SuccessHandler)
                 .defaultSuccessUrl("/")
                 .userInfoEndpoint() // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정을 저장
-                .userService(oauth2Service); // OAuth2 로그인 성공 시, 후작업을 진행할 UserService 인터페이스 구현체 등록
+                .userService(customOauth2Service); // OAuth2 로그인 성공 시, 후작업을 진행할 UserService 인터페이스 구현체 등록
         return http.build();
 
 

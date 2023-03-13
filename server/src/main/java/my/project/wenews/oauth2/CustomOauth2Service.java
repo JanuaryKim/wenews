@@ -18,7 +18,7 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Component
-public class Oauth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class CustomOauth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final HttpSession httpSession;
     private final MemberRepository memberRepository;
