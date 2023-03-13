@@ -7,12 +7,14 @@ import my.project.wenews.news.dto.NewsDto;
 import my.project.wenews.news.entity.News;
 import my.project.wenews.news.mapper.NewsMapper;
 import my.project.wenews.news.service.NewsService;
+import my.project.wenews.security.auth.LoginUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,14 +26,13 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping(value = "/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
 
         List<News> newsList = newsService.readAllNewsDesc();
         List<NewsDto.Response> responseList = newsMapper.newsListToNewsDtoResponseList(newsList);
         delegateConvertTag(newsList, responseList);
         model.addAttribute("news",responseList);
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user != null){
             model.addAttribute("userName", user.getName());
         }
@@ -41,9 +42,8 @@ public class IndexController {
     }
 
     @GetMapping(value = "/news/save")
-    public String newsSave(Model model) {
+    public String newsSave(Model model, @LoginUser SessionUser user) {
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user != null){
             model.addAttribute("userEmail", user.getEmail());
         }
