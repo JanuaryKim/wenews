@@ -5,3 +5,7 @@ spring:
     username: root
     password: qwer1234
     url: jdbc:mysql://localhost:3306/wenews?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always

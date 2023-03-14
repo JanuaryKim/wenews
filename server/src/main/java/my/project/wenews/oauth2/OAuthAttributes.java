@@ -5,13 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 
 
+import java.io.Serializable;
 import java.util.Map;
 
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class OAuthAttributes {
+public class OAuthAttributes implements Serializable{
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String name;

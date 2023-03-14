@@ -3,8 +3,10 @@ package my.project.wenews.member.dto;
 import lombok.Getter;
 import my.project.wenews.member.entity.Member;
 
+import java.io.Serializable;
+
 @Getter
-public class SessionUser {
+public class SessionUser implements Serializable {
     private String name;
     private String email;
     private String picture;
