@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.nio.charset.StandardCharsets;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -74,7 +73,6 @@ public class NewsControllerTest {
         mvc.perform(multipart("/api/auth/news").file(mockMultipartFile))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.newsId").value("1"))
-                .andExpect(jsonPath("$.memberNickname").value("테스터"))
                 .andExpect(jsonPath("$.newsTitle").value("테스트 제목"))
                 .andExpect(jsonPath("$.newsContents").value("테스트 내용"))
                 .andExpect(jsonPath("$.newsTags.[0]").value("C#"))

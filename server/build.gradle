@@ -54,8 +54,10 @@ dependencies {
     // OAuth 2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+    // Mustache
     implementation 'org.springframework.boot:spring-boot-starter-mustache'
 
+    // Session jdbc storage
     implementation 'org.springframework.session:spring-session-jdbc'
 }
 

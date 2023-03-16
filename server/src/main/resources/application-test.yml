@@ -14,6 +14,10 @@ spring:
     url: jdbc:mysql://localhost:3306/wenews_test?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
     password: qwer1234
+    session:
+      store-type: jdbc
+      jdbc:
+        initialize-schema: always
   jpa:
     show-sql: true
     hibernate:
