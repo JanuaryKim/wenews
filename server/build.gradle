@@ -65,9 +65,3 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-flyway {  // 3)
-    url = 'jdbc:mysql://localhost:3306/wenews?useSSL=false&serverTimezone=UTC&characterEncoding=utf8'
-    user = 'root'
-    password = 'qwer1234'
-    // driver = 'com.mysql.jdbc.Driver'  기본으로 등록되어있다.
-}
