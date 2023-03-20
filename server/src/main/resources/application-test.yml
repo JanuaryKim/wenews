@@ -11,9 +11,9 @@ spring:
   #mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/wenews_test?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: root
-    password: qwer1234
+    url: ${news_test_rds_url}
+    username: ${news_rds_username}
+    password: ${news_rds_password}
     session:
       store-type: jdbc
       jdbc:
@@ -29,8 +29,8 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
-    url: jdbc:mysql://localhost:3306/wenews_test?serverTimezone=UTC&characterEncoding=UTF-8
-    user: root
-    password: qwer1234
+    url: ${news_test_flyway_url}
+    user: ${news_rds_username}
+    password: ${news_rds_password}
 
 
