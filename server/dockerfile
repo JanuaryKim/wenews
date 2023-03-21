@@ -2,7 +2,7 @@ FROM azul/zulu-openjdk:11-latest
 
 EXPOSE 8080
 ARG JAR_FILE=wenews-0.0.1-SNAPSHOT.jar
-COPY ./${JAR_FILE} /news/${JAR_FILE}
+COPY ./wenews-0.0.1-SNAPSHOT.jar /wenews-0.0.1-SNAPSHOT.jar
 ENTRYPOINT ["java", "-jar", "/news/wenews-0.0.1-SNAPSHOT.jar"]
 
 
