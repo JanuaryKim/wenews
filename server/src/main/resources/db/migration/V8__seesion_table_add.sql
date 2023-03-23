@@ -1,4 +1,4 @@
-CREATE TABLE `SPRING_SESSION` (
+CREATE TABLE `spring_session` (
                                   `PRIMARY_ID` char(36) NOT NULL,
                                   `SESSION_ID` char(36) NOT NULL,
                                   `CREATION_TIME` bigint NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE `SPRING_SESSION` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
 
-CREATE TABLE `SPRING_SESSION_ATTRIBUTES` (
+CREATE TABLE `spring_session_attributes` (
                                              `SESSION_PRIMARY_ID` char(36) NOT NULL,
                                              `ATTRIBUTE_NAME` varchar(200) NOT NULL,
                                              `ATTRIBUTE_BYTES` blob NOT NULL,
