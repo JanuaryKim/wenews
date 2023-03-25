@@ -6,6 +6,7 @@ import my.project.wenews.member.dto.SessionUser;
 import my.project.wenews.news.dto.NewsDto;
 import my.project.wenews.news.entity.News;
 import my.project.wenews.news.mapper.NewsMapper;
+import my.project.wenews.news.service.NewsImageService;
 import my.project.wenews.news.service.NewsService;
 import my.project.wenews.security.auth.LoginUser;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import java.util.List;
 public class IndexController {
 
     private final NewsService newsService;
+    private final NewsImageService newsImageService;
     private final NewsMapper newsMapper;
     private final HttpSession httpSession;
 
@@ -55,6 +57,7 @@ public class IndexController {
     public String newsUpdate(@PathVariable Long id, Model model) {
 
         News news = newsService.readNews(id);
+        List<String> urls = newsImageService.readNewsImagesURL(news);
         NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(news);
         NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, news);
         model.addAttribute("news",response);
@@ -65,8 +68,10 @@ public class IndexController {
     public String newsRead(@PathVariable Long id, Model model) {
 
         News news = newsService.readNews(id);
+        List<String> urls = newsImageService.readNewsImagesURL(news);
         NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(news);
         NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, news);
+        response.setNewsImagesURL(urls);
         model.addAttribute("news",response);
         return "news-read";
     }

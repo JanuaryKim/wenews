@@ -31,9 +31,13 @@
 				{{/news.newsTags}}
 			</div>
 
+
+
 			<div class="form-group">
-				<label for="content">첨부 파일</label>
-				<input type="file" class="form-control" id="file">
+				<label for="content">첨부 이미지</label>
+				{{#news.newsImagesURL}}
+					<img src="http://localhost:9999{{.}}" width="500" height="300">
+				{{/news.newsImagesURL}}
 			</div>
 		</form>
 		<a href="/" role="button" class="btn btn-secondary">취소</a>

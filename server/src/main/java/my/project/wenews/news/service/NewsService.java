@@ -2,11 +2,15 @@ package my.project.wenews.news.service;
 
 import lombok.RequiredArgsConstructor;
 import my.project.wenews.news.entity.News;
+import my.project.wenews.news.entity.NewsImage;
+import my.project.wenews.news.repository.NewsImageRepository;
 import my.project.wenews.news.repository.NewsRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -15,11 +19,16 @@ import java.util.List;
 public class NewsService {
 
     private final NewsRepository newsRepository;
+    private final FileService fileService;
+    private final NewsImageRepository newsImageRepository;
 
-    public News createNews(News news) {
 
-        News savedNews = newsRepository.save(news);
-
+    public News createNews(News news, MultipartFile newsImage) throws IOException {
+        News savedNews = newsRepository.save(news); //뉴스 데이터 저장
+        String dirPath = fileService.createPath(savedNews.getNewsId());
+        String fileName = fileService.createFileName(news.getNewsId(), newsImage);
+        newsImageRepository.save(delegateCreateNewsImage(savedNews, "/imagePath" + "/" + news.getNewsId() + "/" + fileName)); //뉴스 이미지 데이터 저장
+        fileService.saveFile(dirPath, fileName, newsImage); //뉴스 이미지 저장
         return savedNews;
     }
 
@@ -31,6 +40,8 @@ public class NewsService {
     public News updateNews(News updateNews, Long id) {
 
         News readNews = verifyExistsNews(id);
+
+
 
         return readNews.updateNews(updateNews);
     }
@@ -51,5 +62,12 @@ public class NewsService {
 
         News readNews = newsRepository.findById(id).orElseThrow(() -> new RuntimeException());
         newsRepository.delete(readNews);
+    }
+
+    private NewsImage delegateCreateNewsImage(News news, String path) {
+
+        NewsImage newsImage = NewsImage.builder().news(news).url(path).build();
+
+        return newsImage;
     }
 }

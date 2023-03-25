@@ -4,6 +4,7 @@ import my.project.wenews.member.entity.Member;
 import my.project.wenews.news.dto.NewsBaseDto;
 import my.project.wenews.news.dto.NewsDto;
 import my.project.wenews.news.entity.News;
+import my.project.wenews.news.entity.NewsImage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -51,7 +52,7 @@ public interface NewsMapper {
     }
 
     @Mapping(target = "newsTags", ignore = true) //매핑할 source인 Post에서 newsTags는 제외 시킴
-    @Mapping(target = "memberEmail", source = "member.memberEmail")
+    @Mapping(target = "memberEmail", source = "news.member.memberEmail")
     NewsDto.Response newsToNewsDtoResponse(News news);
 
     //매핑할 로직을 직접 입력해야 하므로 default로 정의
@@ -78,7 +79,9 @@ public interface NewsMapper {
     @Mapping(target = "member", source = "member") //member인자를 News에 member필드에 그대로 set 시킴
     News newsDtoPutToNews(NewsDto.Put put, Member member);
 
-
+    @Mapping(target = "newsImagesURL", ignore = true)
     List<NewsDto.Response> newsListToNewsDtoResponseList(List<News> newsList);
 
+
+    NewsDto.SimpleResponse newsToNewsDtoSimpleResponse(News news);
 }

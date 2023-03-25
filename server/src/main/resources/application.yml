@@ -9,12 +9,26 @@ spring:
     #swagger
     pathmatch:
       matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
 
 # mustache korean encoding
 server:
   servlet:
     encoding:
       force-response: true
+  port: 9999
+
+
+# path
+path:
+  connect-path: "/imagePath/**"
+  resources:
+    save-path: "src/main/resources/"
+    load-path: "file:///C/news/"
+#    load-path: "file:///home/uploadedImage"
 
 
 

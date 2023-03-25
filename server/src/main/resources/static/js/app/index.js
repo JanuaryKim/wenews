@@ -42,11 +42,19 @@ var main = {
             processData: false,               // * 중요 *
             enctype : 'multipart/form-data',  // * 중요 *
             data: formData
-        }).done(function(){
-            alert('글이 등록되었습니다.');
-            window.location.href = '/';
+        }).done(function(response){
+
+            if(response.status === 200 || response.status === 201)
+            {
+                alert('글이 등록되었습니다.');
+                window.location.href = '/';
+            }
+            else
+            {
+                alert(response.message);
+            }
         }).fail(function(error){
-          alert(JSON.stringify(error));
+            alert('파일의 최대 크기를 초과 하였습니다 (10MB)');
         })
     },
 
@@ -103,6 +111,7 @@ var main = {
             alert(JSON.stringify(error));
         });
     }
+
 
 }
 

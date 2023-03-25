@@ -59,6 +59,9 @@ dependencies {
 
     // Session jdbc storage
     implementation 'org.springframework.session:spring-session-jdbc'
+
+    // validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
