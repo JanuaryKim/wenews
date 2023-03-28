@@ -37,7 +37,7 @@ public class NewsDto {
         private String newsTitle;
         private String newsContents;
         private String[] newsTags;
-        private List<String> newsImagesURL;
+        private List<NewsImageDto.Response> newsImages;
         private LocalDateTime modifiedAt;
     }
 

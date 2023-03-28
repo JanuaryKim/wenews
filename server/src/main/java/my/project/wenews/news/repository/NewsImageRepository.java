@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface NewsImageRepository extends JpaRepository<NewsImage, Long> {
 
-
     public List<NewsImage> findNewsImagesByNews(News news);
+
 }

@@ -1,6 +1,6 @@
 {{>layout/header}}
 
-<h1>News 수정</h1>
+<h1>News 수정페이지</h1>
 
 <div class="col-md-12">
 	<div class="col-md-4">
@@ -32,9 +32,16 @@
 			</div>
 
 			<div class="form-group">
-				<label for="content">첨부 파일</label>
-				<input type="file" class="form-control" id="file">
+				<label for="content">첨부 파일 (최대 1개)</label>
+				{{#news.newsImages}}
+					<div class="news-images">
+						<img src="http://localhost:9999{{url}}">
+						<button type="button" class="deleteBtn" id="{{imageId}}" onclick="imgDelete(this.id)">X</button>
+					</div>
+				{{/news.newsImages}}
 			</div>
+
+			<input type="file" class="form-control" id="file">
 		</form>
 		<a href="/" role="button" class="btn btn-secondary">취소</a>
 		<button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>

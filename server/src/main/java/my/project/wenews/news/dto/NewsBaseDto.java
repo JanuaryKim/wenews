@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import my.project.wenews.annotation.ValidTags;
 
 
 @Getter
@@ -14,5 +15,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class NewsBaseDto {
 
+    @ValidTags
     private String[] newsTags;
 }

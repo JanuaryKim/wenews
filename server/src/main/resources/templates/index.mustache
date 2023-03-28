@@ -41,14 +41,7 @@
 		{{#news}}
 			<tr>
 				<td>{{newsId}}</td>
-				{{#userName}}
-					<td><a href="/news/update/{{newsId}}">{{newsTitle}}</a></td>
-				{{/userName}}
-
-				{{^userName}}
-					<td><a href="/news/read/{{newsId}}">{{newsTitle}}</a></td>
-				{{/userName}}
-
+				<td><a href="/news/read/{{newsId}}">{{newsTitle}}</a></td>
 				<td>{{memberEmail}}</td>
 				<td>{{modifiedAt}}</td>
 

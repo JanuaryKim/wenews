@@ -4,6 +4,7 @@ package my.project.wenews.page;
 import lombok.RequiredArgsConstructor;
 import my.project.wenews.member.dto.SessionUser;
 import my.project.wenews.news.dto.NewsDto;
+import my.project.wenews.news.dto.NewsImageDto;
 import my.project.wenews.news.entity.News;
 import my.project.wenews.news.mapper.NewsMapper;
 import my.project.wenews.news.service.NewsImageService;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -57,22 +58,25 @@ public class IndexController {
     public String newsUpdate(@PathVariable Long id, Model model) {
 
         News news = newsService.readNews(id);
-        List<String> urls = newsImageService.readNewsImagesURL(news);
         NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(news);
-        NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, news);
+        NewsDto.Response response = newsMapper.newsTagStrToNewsTagArrForUpdate(tempResponse, news);
+
         model.addAttribute("news",response);
         return "news-update";
     }
 
     @GetMapping(value = "/news/read/{id}")
-    public String newsRead(@PathVariable Long id, Model model) {
+    public String newsRead(@PathVariable Long id, Model model, @LoginUser SessionUser user) {
 
         News news = newsService.readNews(id);
-        List<String> urls = newsImageService.readNewsImagesURL(news);
         NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(news);
         NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, news);
-        response.setNewsImagesURL(urls);
+
+        if (newsService.verifyRegister(id, user)) {
+            model.addAttribute("register",true);
+        }
         model.addAttribute("news",response);
+
         return "news-read";
     }
 

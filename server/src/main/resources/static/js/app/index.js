@@ -13,7 +13,12 @@ var main = {
             _this.delete();
         })
 
+        $('.btn-img-delete').on('click', function(){
+            _this.imgDelete();
+        })
+
     },
+
     save : function() {
         var formData = new FormData();
 
@@ -88,9 +93,16 @@ var main = {
             processData: false,               // * 중요 *
             enctype : 'multipart/form-data',  // * 중요 *
             data: formData
-        }).done(function() {
-            alert('글이 수정되었습니다.');
-            window.location.href = '/';
+        }).done(function(response) {
+            if(response.status === 200 || response.status === 201)
+            {
+                alert('글이 등록되었습니다.');
+                window.location.href = '/';
+            }
+            else
+            {
+                alert(response.message);
+            }
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
@@ -110,9 +122,25 @@ var main = {
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
-    }
+    },
 
 
 }
 
 main.init();
+
+
+function imgDelete (clicked_id) {
+    var id = clicked_id
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/auth/newsImg/'+id,
+        dataType: 'text',
+        contentType:'application/json; charset=utf-8'
+    }).done(function() {
+        alert('이미지가 삭제되었습니다.');
+        window.location.reload();
+    }).fail(function (error) {
+        alert(JSON.stringify(error));
+    });
+}

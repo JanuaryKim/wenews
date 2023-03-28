@@ -5,6 +5,9 @@ import lombok.experimental.SuperBuilder;
 import my.project.wenews.entity.BaseTimeEntity;
 import my.project.wenews.member.entity.Member;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 @Setter
 @SuperBuilder
@@ -30,6 +33,9 @@ public class News extends BaseTimeEntity {
 
     @Column(length = 100)
     private String newsTags;
+
+    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
+    List<NewsImage> newsImages = new ArrayList<>();
 
     public static News newInstance(News news) {
         return new News(news);

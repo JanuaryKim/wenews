@@ -1,10 +1,16 @@
 package my.project.wenews.news.service;
 
 import lombok.RequiredArgsConstructor;
+
+import my.project.wenews.exception.BusinessException;
+import my.project.wenews.exception.ExceptionCode;
+import my.project.wenews.member.dto.SessionUser;
 import my.project.wenews.news.entity.News;
 import my.project.wenews.news.entity.NewsImage;
 import my.project.wenews.news.repository.NewsImageRepository;
 import my.project.wenews.news.repository.NewsRepository;
+import my.project.wenews.security.auth.LoginUser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -21,14 +28,22 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final FileService fileService;
     private final NewsImageRepository newsImageRepository;
+    private final NewsImageService newsImageService;
 
+    @Value("${path.connect-path}")
+    private String connectPath;
+
+    @Value("${path.file-path}")
+    private String filePath;
 
     public News createNews(News news, MultipartFile newsImage) throws IOException {
         News savedNews = newsRepository.save(news); //뉴스 데이터 저장
-        String dirPath = fileService.createPath(savedNews.getNewsId());
-        String fileName = fileService.createFileName(news.getNewsId(), newsImage);
-        newsImageRepository.save(delegateCreateNewsImage(savedNews, "/imagePath" + "/" + news.getNewsId() + "/" + fileName)); //뉴스 이미지 데이터 저장
-        fileService.saveFile(dirPath, fileName, newsImage); //뉴스 이미지 저장
+
+        if(newsImage != null){
+            String fileName = fileService.createFileName(news.getNewsId(), newsImage); //저장할 이미지의 파일명 정의
+            newsImageRepository.save(delegateCreateNewsImage(savedNews, connectPath + news.getNewsId() + "/" + fileName)); //뉴스 이미지 데이터 저장
+            fileService.saveFile(filePath + savedNews.getNewsId(), fileName, newsImage); //뉴스 이미지 저장
+        }
         return savedNews;
     }
 
@@ -37,18 +52,25 @@ public class NewsService {
         return verifyExistsNews(newsId);
     }
 
-    public News updateNews(News updateNews, Long id) {
+    public News updateNews(News updateNews, Long id, MultipartFile newsImg) throws IOException {
 
-        News readNews = verifyExistsNews(id);
+        News readNews = verifyExistsNews(id); //뉴스가 존재하는지 검증
 
+        if (newsImg != null && newsImageRepository.findNewsImagesByNews(readNews).size() > 0) { //이미 이미지가 존재하다면 추가로 이미지 등록 불가
+            throw new BusinessException(ExceptionCode.ALREADY_EXISTS_NEWS_IMG);
+        }
+        readNews.updateNews(updateNews); //뉴스의 데이터 수정
 
+        if (newsImg != null) {
+            String fileName = fileService.createFileName(readNews.getNewsId(), newsImg); //저장할 이미지의 파일명 정의
+            newsImageRepository.save(delegateCreateNewsImage(readNews, connectPath + readNews.getNewsId() + "/" + fileName)); //뉴스 이미지 데이터 저장
+            fileService.saveFile(filePath + readNews.getNewsId(), fileName, newsImg); //뉴스 이미지 실제 저장
+        }
 
-        return readNews.updateNews(updateNews);
+        return readNews;
     }
 
     private News verifyExistsNews(Long id) {
-
-
         return newsRepository.findById(id).orElseThrow(()-> new RuntimeException("존재하지 않는 뉴스"));
     }
 
@@ -70,4 +92,23 @@ public class NewsService {
 
         return newsImage;
     }
+
+
+    public boolean verifyRegister(Long newsId, SessionUser user) {
+
+        if (user == null) {
+            return false;
+        }
+
+        Optional<News> news = newsRepository.findById(newsId);
+
+        if (news.isPresent()) {
+            if (news.get().getMember().getMemberId().equals(user.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

@@ -1,14 +1,18 @@
 package my.project.wenews.news.service;
 
 import lombok.RequiredArgsConstructor;
+import my.project.wenews.exception.BusinessException;
+import my.project.wenews.exception.ExceptionCode;
 import my.project.wenews.news.entity.News;
 import my.project.wenews.news.entity.NewsImage;
 import my.project.wenews.news.repository.NewsImageRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.nio.file.Files;
+
 
 @RequiredArgsConstructor
 @Transactional
@@ -16,23 +20,32 @@ import java.util.stream.Collectors;
 public class NewsImageService {
 
     private final NewsImageRepository repository;
+    private final FileService fileService;
 
 
-    public List<String> readNewsImagesURL(News news) {
 
-        List<NewsImage> newsImages = readNewsImage(news);
+    public Long deleteNewsImg(Long imgId) throws IOException {
 
-        if (newsImages != null) {
-            return newsImages.stream().map(newsImage -> newsImage.getUrl()).collect(Collectors.toList());
-        } else {
-            return null;
-        }
+        NewsImage newsImage = verifyExistsImg(imgId); //존재하는 이미지인지 검증
+        repository.deleteById(imgId); //이미지의 DB 데이터 삭제
+        deleteNewsImageFiles(newsImage); //실제 이미지 파일 삭제
+        return imgId;
     }
 
-    private List<NewsImage> readNewsImage(News news) {
-
-        List<NewsImage> newsImagesByNews = repository.findNewsImagesByNews(news);
-
-        return newsImagesByNews;
+    public NewsImage verifyExistsImg(Long imgId) {
+        return repository.findById(imgId).orElseThrow(() -> new BusinessException(ExceptionCode.NOT_EXISTS_NEWS_IMG));
     }
+
+    private void deleteNewsImageFiles(NewsImage deleteNewsImage) throws IOException {
+
+        String fileURL = deleteNewsImage.getUrl();
+        String fileName = fileURL.substring(fileURL.lastIndexOf("/"));
+        fileService.removeFile(deleteNewsImage.getNews().getNewsId(), fileName);
+    }
+
+
+
+
+
+
 }

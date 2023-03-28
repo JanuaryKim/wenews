@@ -1,6 +1,6 @@
 {{>layout/header}}
 
-<h1>News 수정</h1>
+<h1>News 상세페이지</h1>
 
 <div class="col-md-12">
 	<div class="col-md-4">
@@ -35,12 +35,20 @@
 
 			<div class="form-group">
 				<label for="content">첨부 이미지</label>
-				{{#news.newsImagesURL}}
-					<img src="http://localhost:9999{{.}}" width="500" height="300">
-				{{/news.newsImagesURL}}
+				<div id="news-images">
+					{{#news.newsImages}}
+						<img src="http://localhost:9999{{url}}" width="500" height="300">
+					{{/news.newsImages}}
+				</div>
+
 			</div>
 		</form>
 		<a href="/" role="button" class="btn btn-secondary">취소</a>
+
+		{{#register}}
+			<a href="/news/update/{{news.newsId}}" role="button" class="btn btn-secondary">수정하기</a>
+		{{/register}}
+
 	</div>
 </div>
 

@@ -1,5 +1,6 @@
 package my.project.wenews.news.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,11 +14,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Component
 public class FileService {
 
-    @Value("${path.resources.save-path}")
-    private String savePath;
+    @Value("${path.file-path}")
+    private String filePath;
 
     public void saveFile(String dirPath, String fileName, MultipartFile multipartFile) throws IOException {
 
@@ -27,12 +29,17 @@ public class FileService {
         }
 
         File file = new File(dirPath + "/" + fileName);
-        System.out.println(dirPath + "/" + fileName);
         try (OutputStream os = new FileOutputStream(file)) {
             os.write(multipartFile.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void removeFile(Long newsId, String fileName) throws IOException {
+        String deleteFilePath = filePath + newsId + "/" + fileName;
+        Path filePath = Paths.get(deleteFilePath);
+        Files.delete(filePath);
     }
 
     public String createFileName(Long newsId, MultipartFile multipartFile){
@@ -45,9 +52,5 @@ public class FileService {
         return saveFileName;
     }
 
-    public String createPath(Long newsId) {
-        String dirPath = savePath + "/" + newsId;
-        return dirPath;
-    }
 
 }

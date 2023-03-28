@@ -16,11 +16,11 @@ public class WebConfig implements WebMvcConfigurer { //사용자로부터 들어
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
-    @Value("${path.resources.save-path}")
+    @Value("${path.connect-path}")
     private String connectPath;
 
-    @Value("${path.resources.load-path}")
-    private String loadPath;
+    @Value("${path.file-path}")
+    private String filePath;
 
 
     @Override
@@ -31,7 +31,8 @@ public class WebConfig implements WebMvcConfigurer { //사용자로부터 들어
     //리소스 접근 매핑
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(connectPath)
-                .addResourceLocations(loadPath);
+        registry.addResourceHandler(connectPath + "**")
+                .addResourceLocations("file:/" + filePath);
+//                .addResourceLocations("file://" + filePath);
     }
 }

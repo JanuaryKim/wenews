@@ -3,6 +3,7 @@ package my.project.wenews.news.mapper;
 import my.project.wenews.member.entity.Member;
 import my.project.wenews.news.dto.NewsBaseDto;
 import my.project.wenews.news.dto.NewsDto;
+import my.project.wenews.news.dto.NewsImageDto;
 import my.project.wenews.news.entity.News;
 import my.project.wenews.news.entity.NewsImage;
 import org.mapstruct.Mapper;
@@ -75,6 +76,30 @@ public interface NewsMapper {
         return response;
     }
 
+    default NewsDto.Response newsTagStrToNewsTagArrForUpdate(NewsDto.Response response, News news){
+
+        NewsDto.Response tempResponse = newsTagStrToNewsTagArr(response, news);
+
+        String[] currentTags = tempResponse.getNewsTags();
+
+        if (currentTags.length < 3) {
+
+            String[] newTagArr = new String[3];
+
+            for (int i = 0; i < currentTags.length; i++) {
+                newTagArr[i] = currentTags[i];
+            }
+
+            for (int i = currentTags.length; i < 3; i++) {
+                newTagArr[i] = "";
+            }
+
+            tempResponse.setNewsTags(newTagArr);
+        }
+
+        return tempResponse;
+    }
+
     @Mapping(target = "newsTags", ignore = true) //매핑할 source인 Post에서 newsTags는 제외 시킴
     @Mapping(target = "member", source = "member") //member인자를 News에 member필드에 그대로 set 시킴
     News newsDtoPutToNews(NewsDto.Put put, Member member);
@@ -82,6 +107,6 @@ public interface NewsMapper {
     @Mapping(target = "newsImagesURL", ignore = true)
     List<NewsDto.Response> newsListToNewsDtoResponseList(List<News> newsList);
 
-
     NewsDto.SimpleResponse newsToNewsDtoSimpleResponse(News news);
+
 }

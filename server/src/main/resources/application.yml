@@ -24,10 +24,13 @@ server:
 
 # path
 path:
-  connect-path: "/imagePath/**"
-  resources:
-    save-path: "src/main/resources/"
-    load-path: "file:///C/news/"
+  storage-path: "http://localhost:9999"
+  connect-path: "/imagePath/"
+  file-path: "C:/News/"
+  
+
+#  file-path: "/C/news/"
+#  connect-path: "/imagePath/**"
 #    load-path: "file:///home/uploadedImage"
 
 
