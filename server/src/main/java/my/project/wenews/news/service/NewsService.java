@@ -9,7 +9,6 @@ import my.project.wenews.news.entity.News;
 import my.project.wenews.news.entity.NewsImage;
 import my.project.wenews.news.repository.NewsImageRepository;
 import my.project.wenews.news.repository.NewsRepository;
-import my.project.wenews.security.auth.LoginUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,6 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final FileService fileService;
     private final NewsImageRepository newsImageRepository;
-    private final NewsImageService newsImageService;
 
     @Value("${path.connect-path}")
     private String connectPath;
@@ -52,9 +50,10 @@ public class NewsService {
         return verifyExistsNews(newsId);
     }
 
-    public News updateNews(News updateNews, Long id, MultipartFile newsImg) throws IOException {
+    public News updateNews(News updateNews, Long id, MultipartFile newsImg, Long memberId) throws IOException {
 
         News readNews = verifyExistsNews(id); //뉴스가 존재하는지 검증
+        verifyRegister(readNews, memberId);
 
         if (newsImg != null && newsImageRepository.findNewsImagesByNews(readNews).size() > 0) { //이미 이미지가 존재하다면 추가로 이미지 등록 불가
             throw new BusinessException(ExceptionCode.ALREADY_EXISTS_NEWS_IMG);
@@ -80,9 +79,11 @@ public class NewsService {
         return newsList;
     }
 
-    public void deleteNews(Long id) {
+    public void deleteNews(Long id, Long memberId) {
 
         News readNews = newsRepository.findById(id).orElseThrow(() -> new RuntimeException());
+
+        verifyRegister(readNews, memberId);
         newsRepository.delete(readNews);
     }
 
@@ -94,6 +95,7 @@ public class NewsService {
     }
 
 
+    /** 정상적인 상황에서 버튼 활성화를 위한 검증 로직 **/
     public boolean verifyRegister(Long newsId, SessionUser user) {
 
         if (user == null) {
@@ -108,6 +110,14 @@ public class NewsService {
             }
         }
         return false;
+    }
+
+    /** 비정상적인 상황에서 예외 발생을 위한 검증 로직 **/
+    public void verifyRegister(News news, Long memberId) {
+
+        if (!news.getMember().getMemberId().equals(memberId)){
+            throw new BusinessException(ExceptionCode.NOT_AUTHOR_OF_NEWS);
+        }
     }
 
 

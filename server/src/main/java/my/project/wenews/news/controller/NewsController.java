@@ -1,6 +1,7 @@
 package my.project.wenews.news.controller;
 
 import lombok.RequiredArgsConstructor;
+import my.project.wenews.member.dto.SessionUser;
 import my.project.wenews.member.entity.Member;
 import my.project.wenews.news.dto.NewsDto;
 import my.project.wenews.news.dto.SingleResponseDto;
@@ -8,6 +9,7 @@ import my.project.wenews.news.entity.News;
 import my.project.wenews.news.mapper.NewsMapper;
 import my.project.wenews.news.service.NewsImageService;
 import my.project.wenews.news.service.NewsService;
+import my.project.wenews.security.auth.LoginUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +47,9 @@ public class NewsController {
 
 
     @GetMapping(value = "/api/news/{id}")
-    public ResponseEntity getNews(@PathVariable @Positive Long id) {
+    public ResponseEntity getNews(@PathVariable("id") @Positive Long newsId) {
 
-        News news = newsService.readNews(id); //뉴스 데이터 읽음
+        News news = newsService.readNews(newsId); //뉴스 데이터 읽음
         NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(news);
         NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, news);
         SingleResponseDto<NewsDto.Response> singleResponseDto = new SingleResponseDto<>(200, response);
@@ -57,14 +59,15 @@ public class NewsController {
 
     @PutMapping(value = "/api/auth/news/{id}",  consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity modifyNews(
-            @PathVariable Long id,
+            @PathVariable("id") Long newsId,
             @RequestPart(value = "news-dto") @Valid NewsDto.Put newsPut,
-            @RequestPart(value = "news-images", required = false) MultipartFile newsImages) throws IOException {
+            @RequestPart(value = "news-images", required = false) MultipartFile newsImages,
+            @LoginUser SessionUser user) throws IOException {
 
         Member member = new Member(1L);
         News news = newsMapper.newsDtoPutToNews(newsPut, member);
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPut);
-        News updatedNews = newsService.updateNews(tagAddedNews, id, newsImages);
+        News updatedNews = newsService.updateNews(tagAddedNews, newsId, newsImages, user.getId());
         NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(updatedNews);
         NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, updatedNews);
         SingleResponseDto<NewsDto.Response> singleResponseDto = new SingleResponseDto<>(200, response);
@@ -73,17 +76,19 @@ public class NewsController {
 
     @DeleteMapping(value = "/api/auth/news/{id}")
     public ResponseEntity removeNews(
-            @PathVariable @Positive Long id){
+            @PathVariable("id") @Positive Long newsId,
+            @LoginUser SessionUser user){
 
-        newsService.deleteNews(id);
+        newsService.deleteNews(newsId, user.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/api/auth/newsImg/{id}")
     public ResponseEntity removeNewsImg( //뉴스에 첨부된 이미지만 삭제
-            @PathVariable @Positive Long id) throws IOException {
-        newsImageService.deleteNewsImg(id);
-        SingleResponseDto<Long> singleResponseDto = new SingleResponseDto<>(HttpStatus.OK.value(), id);
+            @PathVariable("id") @Positive Long newsId,
+            @LoginUser SessionUser user) throws IOException {
+        newsImageService.deleteNewsImg(newsId, user.getId());
+        SingleResponseDto<Long> singleResponseDto = new SingleResponseDto<>(HttpStatus.OK.value(), newsId);
         return new ResponseEntity(singleResponseDto,HttpStatus.OK);
     }
 }
