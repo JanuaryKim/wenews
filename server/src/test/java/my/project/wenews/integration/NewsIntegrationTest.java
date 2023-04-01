@@ -10,6 +10,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -178,24 +179,38 @@ public class NewsIntegrationTest {
         //when
         //then
 
-        ResultActions actions = mvc.perform(builder
+        ResultActions actions = mvc.perform(multipart("/api/auth/news/{id}",savedNewsId)
                 .file(newsPostDTO)
                 .file(newsImage));
-
-
-//        ResultActions actions = mvc.perform(multipart("/api/auth/news/{id}",savedNewsId)
-//                .file(newsPostDTO)
-//                .file(newsImage));
-
-        System.out.println(actions.andReturn().getResponse().getContentAsString());
 
         actions.andExpect(status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("401"));
 
-
-
     }
 
 
+    @WithMockUser(username = "테스트계정", password = "테스트계정_비밀번호", roles = {"USER","ADMIN"})
+    @DisplayName("뉴스 삭제 성공")
+    @Test
+    public void 뉴스삭제_성공() throws Exception {
 
+        //given
+        this.뉴스등록_성공();
+
+        MockMultipartHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders.multipart("/api/auth/news/{id}",savedNewsId);
+        builder.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod(HttpMethod.DELETE.name());
+                return request;
+            }
+        });
+        //when
+
+        ResultActions actions = mvc.perform(builder);
+        //then
+
+        actions.andExpect(status().isOk());
+    }
 }
