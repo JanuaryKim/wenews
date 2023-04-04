@@ -18,6 +18,7 @@ public class OAuthAttributes implements Serializable{
     private String name;
     private String email;
     private String picture;
+    private Long memberId;
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
 

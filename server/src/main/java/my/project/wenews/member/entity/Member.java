@@ -51,4 +51,9 @@ public class Member extends BaseTimeEntity {
         return this;
     }
 
+    public static Member of(Long memberId) {
+
+        return new Member(memberId);
+    }
+
 }

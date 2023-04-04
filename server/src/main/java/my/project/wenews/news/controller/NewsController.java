@@ -33,15 +33,15 @@ public class NewsController {
     @PostMapping(value = "/api/auth/news", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postNews(
             @RequestPart(value = "news-dto") @Valid NewsDto.Post newsPost,
-            @RequestPart(value = "news-images", required = false) MultipartFile newsImages
-
+            @RequestPart(value = "news-images", required = false) MultipartFile newsImages,
+            @LoginUser SessionUser sessionUser
     ) throws IOException {
-        Member member = new Member(1L);
-        News news = newsMapper.newsDtoPostToNews(newsPost, member); //태그 제외 사항을 변환
+
+        News news = newsMapper.newsDtoPostToNews(newsPost, Member.of(sessionUser.getId())); //태그 제외 사항을 변환
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPost); //태그만 따로 변환
         News createdNews = newsService.createNews(tagAddedNews, newsImages); //News 생성
         NewsDto.SimpleResponse simpleResponse = newsMapper.newsToNewsDtoSimpleResponse(createdNews); //Response 형태로 변환
-        SingleResponseDto<NewsDto.SimpleResponse> response = new SingleResponseDto<>(200, simpleResponse);
+        SingleResponseDto<NewsDto.SimpleResponse> response = new SingleResponseDto<>(201, simpleResponse);
         return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
@@ -64,8 +64,7 @@ public class NewsController {
             @RequestPart(value = "news-images", required = false) MultipartFile newsImages,
             @LoginUser SessionUser user) throws IOException {
 
-        Member member = new Member(1L);
-        News news = newsMapper.newsDtoPutToNews(newsPut, member);
+        News news = newsMapper.newsDtoPutToNews(newsPut, Member.of(user.getId()));
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPut);
         News updatedNews = newsService.updateNews(tagAddedNews, newsId, newsImages, user.getId());
         NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(updatedNews);

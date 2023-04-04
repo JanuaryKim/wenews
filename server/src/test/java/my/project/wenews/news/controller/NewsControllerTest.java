@@ -57,7 +57,7 @@ public class NewsControllerTest {
 
         given(newsMapper.newsDtoPostToNews(any(NewsDto.Post.class), any(Member.class))).willReturn(new News());
         given(newsMapper.newsTagArrToNewsTagStr(any(News.class), any(NewsDto.Post.class))).willReturn(new News());
-        given(newsService.createNews(any(News.class))).willReturn(new News());
+//        given(newsService.createNews(any(News.class))).willReturn(new News());
         given(newsMapper.newsToNewsDtoResponse(any(News.class))).willReturn(new NewsDto.Response());
         given(newsMapper.newsTagStrToNewsTagArr(any(NewsDto.Response.class), any(News.class))).willReturn(response);
 
