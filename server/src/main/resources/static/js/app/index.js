@@ -13,10 +13,6 @@ var main = {
             _this.delete();
         })
 
-        $('.btn-img-delete').on('click', function(){
-            _this.imgDelete();
-        })
-
     },
 
     save : function() {
