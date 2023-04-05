@@ -19,7 +19,9 @@ public class NewsMapperTest {
     void testNewsTagArrToNewsTagStr() {
         NewsDto.Post post = (NewsDto.Post)NewsDtoStub.newsMap.get("POST");
         News news = newsMapperImpl.newsTagArrToNewsTagStr(new News(), post);
-        Assertions.assertEquals( "|C#|Java|",news.getNewsTags());
+        String expected = "|" + post.getNewsTags()[0] + "|" + post.getNewsTags()[1] + "|" + post.getNewsTags()[2] + "|";
+
+        Assertions.assertEquals( expected,news.getNewsTags());
     }
 
     @Test

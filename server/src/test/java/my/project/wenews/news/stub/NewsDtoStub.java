@@ -14,8 +14,8 @@ public class NewsDtoStub {
 
         NewsDto.Post post = NewsDto.Post.builder()
                 .newsTitle("테스트 제목")
-                .newsContents("테스트 내용")
-                .newsTags(new String[]{"Java", "C#"})
+                .newsContents("테스트 내용입니다. 10자 이상")
+                .newsTags(new String[]{"Java", "C언어","C플러스"})
                         .build();
 
         newsMap.put("POST", post);
