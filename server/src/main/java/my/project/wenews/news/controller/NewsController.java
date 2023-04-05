@@ -34,15 +34,17 @@ public class NewsController {
     public ResponseEntity postNews(
             @RequestPart(value = "news-dto") @Valid NewsDto.Post newsPost,
             @RequestPart(value = "news-images", required = false) MultipartFile newsImages,
-            @LoginUser SessionUser sessionUser
+            @LoginUser SessionUser user
     ) throws IOException {
 
-        News news = newsMapper.newsDtoPostToNews(newsPost, Member.of(sessionUser.getId())); //태그 제외 사항을 변환
+        News news = newsMapper.newsDtoPostToNews(newsPost, Member.of(user.getId())); //태그 제외 사항을 변환
         News tagAddedNews = newsMapper.newsTagArrToNewsTagStr(news, newsPost); //태그만 따로 변환
         News createdNews = newsService.createNews(tagAddedNews, newsImages); //News 생성
-        NewsDto.SimpleResponse simpleResponse = newsMapper.newsToNewsDtoSimpleResponse(createdNews); //Response 형태로 변환
-        SingleResponseDto<NewsDto.SimpleResponse> response = new SingleResponseDto<>(201, simpleResponse);
-        return new ResponseEntity(response, HttpStatus.CREATED);
+        NewsDto.Response tempResponse = newsMapper.newsToNewsDtoResponse(createdNews); //Response 형태로 변환
+        NewsDto.Response response = newsMapper.newsTagStrToNewsTagArr(tempResponse, createdNews);
+        SingleResponseDto<NewsDto.Response> singleResponseDto = new SingleResponseDto<>(201, response);
+
+        return new ResponseEntity(singleResponseDto, HttpStatus.CREATED);
     }
 
 

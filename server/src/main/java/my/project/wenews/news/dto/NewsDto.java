@@ -1,5 +1,8 @@
 package my.project.wenews.news.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
@@ -38,6 +41,9 @@ public class NewsDto {
         private String newsContents;
         private String[] newsTags;
         private List<NewsImageDto.Response> newsImages;
+
+        @JsonDeserialize(using = LocalDateDeserializer.class) //json형태로 파싱할때 사용할 클래스
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss") //json 형태로 파싱할때 결과물의 데이터 타입, 그리고 파싱 형태 설정
         private LocalDateTime modifiedAt;
     }
 

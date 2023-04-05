@@ -34,7 +34,7 @@ public class News extends BaseTimeEntity {
     @Column(length = 100)
     private String newsTags;
 
-    @OneToMany(mappedBy = "news", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "news", fetch = FetchType.EAGER)
     List<NewsImage> newsImages = new ArrayList<>();
 
     public static News newInstance(News news) {

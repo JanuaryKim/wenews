@@ -39,9 +39,11 @@ public class NewsService {
 
         if(newsImage != null){
             String fileName = fileService.createFileName(news.getNewsId(), newsImage); //저장할 이미지의 파일명 정의
-            newsImageRepository.save(delegateCreateNewsImage(savedNews, connectPath + news.getNewsId() + "/" + fileName)); //뉴스 이미지 데이터 저장
+            NewsImage savedNewsImage = newsImageRepository.save(delegateCreateNewsImage(savedNews, connectPath + news.getNewsId() + "/" + fileName));//뉴스 이미지 데이터 저장
+            savedNews.setNewsImages(List.of(savedNewsImage));
             fileService.saveFile(filePath + savedNews.getNewsId(), fileName, newsImage); //뉴스 이미지 저장
         }
+
         return savedNews;
     }
 
@@ -62,7 +64,8 @@ public class NewsService {
 
         if (newsImg != null) {
             String fileName = fileService.createFileName(readNews.getNewsId(), newsImg); //저장할 이미지의 파일명 정의
-            newsImageRepository.save(delegateCreateNewsImage(readNews, connectPath + readNews.getNewsId() + "/" + fileName)); //뉴스 이미지 데이터 저장
+            NewsImage savedNewsImage = newsImageRepository.save(delegateCreateNewsImage(readNews, connectPath + readNews.getNewsId() + "/" + fileName)); //뉴스 이미지 데이터 저장
+            readNews.setNewsImages(List.of(savedNewsImage));
             fileService.saveFile(filePath + readNews.getNewsId(), fileName, newsImg); //뉴스 이미지 실제 저장
         }
 
@@ -70,6 +73,7 @@ public class NewsService {
     }
 
     private News verifyExistsNews(Long id) {
+
         return newsRepository.findById(id).orElseThrow(()-> new RuntimeException("존재하지 않는 뉴스"));
     }
 
