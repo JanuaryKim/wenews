@@ -28,10 +28,10 @@ public class NewsService {
     private final FileService fileService;
     private final NewsImageRepository newsImageRepository;
 
-    @Value("${path.connect-path}")
+    @Value("${path.connect_path}")
     private String connectPath;
 
-    @Value("${path.file-path}")
+    @Value("${path.file_path}")
     private String filePath;
 
     public News createNews(News news, MultipartFile newsImage) throws IOException {

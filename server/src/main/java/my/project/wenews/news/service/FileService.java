@@ -18,7 +18,7 @@ import java.util.UUID;
 @Component
 public class FileService {
 
-    @Value("${path.file-path}")
+    @Value("${path.file_path}")
     private String filePath;
 
     public void saveFile(String dirPath, String fileName, MultipartFile multipartFile) throws IOException {

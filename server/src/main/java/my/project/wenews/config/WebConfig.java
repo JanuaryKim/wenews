@@ -16,10 +16,10 @@ public class WebConfig implements WebMvcConfigurer { //사용자로부터 들어
 
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
-    @Value("${path.connect-path}")
+    @Value("${path.connect_path}")
     private String connectPath;
 
-    @Value("${path.file-path}")
+    @Value("${path.file_path}")
     private String filePath;
 
 
