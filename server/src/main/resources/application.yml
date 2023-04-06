@@ -24,9 +24,9 @@ server:
 
 # path
 path:
-  storage-path: "http://localhost:9999"
-  connect-path: "/imagePath/"
-  file-path: "C:/News/"
+  storage-path: ${storage-path}
+  connect-path: ${connect-path}
+  file-path: ${file-path}
   
 
 #  file-path: "/C/news/"
