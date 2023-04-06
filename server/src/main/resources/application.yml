@@ -19,7 +19,6 @@ server:
   servlet:
     encoding:
       force-response: true
-  port: 9999
 
 
 # path
