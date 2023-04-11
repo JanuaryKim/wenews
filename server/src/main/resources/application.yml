@@ -27,7 +27,7 @@ path:
   storage_path: ${storage_path}
   connect_path: ${connect_path}
   file_path: ${file_path}
-  
+  site_path: ${site_path}
 
 #  file-path: "/C/news/"
 #  connect-path: "/imagePath/**"

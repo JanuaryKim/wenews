@@ -35,7 +35,7 @@
 				<label for="content">첨부 파일 (최대 1개, 최대 20MB) jpeg,png,jpg,gif 만 가능</label>
 				{{#news.newsImages}}
 					<div class="news-images">
-						<img src="http://localhost:8080{{url}}">
+						<img src="{{site_path}}{{url}}">
 						<button type="button" class="deleteBtn" id="{{imageId}}" onclick="imgDelete(this.id)">X</button>
 					</div>
 				{{/news.newsImages}}

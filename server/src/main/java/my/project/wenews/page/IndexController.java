@@ -2,9 +2,9 @@ package my.project.wenews.page;
 
 
 import lombok.RequiredArgsConstructor;
+import my.project.wenews.annotation.ImageShown;
 import my.project.wenews.member.dto.SessionUser;
 import my.project.wenews.news.dto.NewsDto;
-import my.project.wenews.news.dto.NewsImageDto;
 import my.project.wenews.news.entity.News;
 import my.project.wenews.news.mapper.NewsMapper;
 import my.project.wenews.news.service.NewsImageService;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -54,6 +53,7 @@ public class IndexController {
         return "news-save";
     }
 
+    @ImageShown
     @GetMapping(value = "/news/update/{id}")
     public String newsUpdate(@PathVariable Long id, Model model) {
 
@@ -65,6 +65,7 @@ public class IndexController {
         return "news-update";
     }
 
+    @ImageShown
     @GetMapping(value = "/news/read/{id}")
     public String newsRead(@PathVariable Long id, Model model, @LoginUser SessionUser user) {
 
