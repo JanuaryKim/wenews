@@ -55,7 +55,7 @@ var main = {
                 alert(response.message);
             }
         }).fail(function(error){
-            alert('파일의 최대 크기를 초과 하였습니다 (10MB)');
+            alert(JSON.stringify(error));
         })
     },
 

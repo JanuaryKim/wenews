@@ -32,16 +32,16 @@
 			</div>
 
 			<div class="form-group">
-				<label for="content">첨부 파일 (최대 1개)</label>
+				<label for="content">첨부 파일 (최대 1개, 최대 20MB) jpeg,png,jpg,gif 만 가능</label>
 				{{#news.newsImages}}
 					<div class="news-images">
-						<img src="http://ec2-3-35-119-255.ap-northeast-2.compute.amazonaws.com:8085{{url}}">
+						<img src="http://localhost:8080{{url}}">
 						<button type="button" class="deleteBtn" id="{{imageId}}" onclick="imgDelete(this.id)">X</button>
 					</div>
 				{{/news.newsImages}}
 			</div>
 
-			<input type="file" class="form-control" id="file">
+			<input type="file" class="form-control" id="file" accept=".jpeg,.png,.jpg,.gif">
 		</form>
 		<a href="/" role="button" class="btn btn-secondary">취소</a>
 		<button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>

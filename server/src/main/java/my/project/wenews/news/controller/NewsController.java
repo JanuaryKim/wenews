@@ -1,6 +1,8 @@
 package my.project.wenews.news.controller;
 
 import lombok.RequiredArgsConstructor;
+import my.project.wenews.annotation.ValidExt;
+import my.project.wenews.annotation.ValidFileSize;
 import my.project.wenews.member.dto.SessionUser;
 import my.project.wenews.member.entity.Member;
 import my.project.wenews.news.dto.NewsDto;
@@ -33,7 +35,7 @@ public class NewsController {
     @PostMapping(value = "/api/auth/news", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postNews(
             @RequestPart(value = "news-dto") @Valid NewsDto.Post newsPost,
-            @RequestPart(value = "news-images", required = false) MultipartFile newsImages,
+            @RequestPart(value = "news-images", required = false) @ValidExt @ValidFileSize MultipartFile newsImages,
             @LoginUser SessionUser user
     ) throws IOException {
 
@@ -63,7 +65,7 @@ public class NewsController {
     public ResponseEntity modifyNews(
             @PathVariable("id") Long newsId,
             @RequestPart(value = "news-dto") @Valid NewsDto.Put newsPut,
-            @RequestPart(value = "news-images", required = false) MultipartFile newsImages,
+            @RequestPart(value = "news-images", required = false) @ValidExt @ValidFileSize MultipartFile newsImages,
             @LoginUser SessionUser user) throws IOException {
 
         News news = newsMapper.newsDtoPutToNews(newsPut, Member.of(user.getId()));

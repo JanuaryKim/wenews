@@ -1,35 +1,47 @@
 package my.project.wenews.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-
+import javax.validation.ConstraintViolation;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Getter
-public class ErrorResponse {
+@Setter
+public class ErrorResponse<T> {
 
     private int status;
     private String message;
-    private List<FieldErrorResponse> fieldErrors;
+    private List<T> errorReasons;
 
     public ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public ErrorResponse(int status, String message, List<FieldErrorResponse> fieldErrorResponseList) {
+    public ErrorResponse(int status, String message, List<T> errorReasons) {
         this.status = status;
         this.message = message;
-        this.fieldErrors = fieldErrorResponseList;
+        this.errorReasons = errorReasons;
     }
+
 
     public static ErrorResponse of(ExceptionCode exceptionCode) {
 
         return new ErrorResponse(exceptionCode.getCode(), exceptionCode.getMessage());
+    }
+
+    public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
+
+        StringBuilder message = new StringBuilder();
+        int httpStatus = 400;
+        violations.stream().forEach(response -> message.append(response.getPropertyPath() + " : " + response.getMessageTemplate() + "\n"));
+        return new ErrorResponse(httpStatus, message.toString(), ConstraintViolationErrorResponse.of(violations));
     }
 
     public static ErrorResponse of(BindingResult bindingResult) {
@@ -37,10 +49,7 @@ public class ErrorResponse {
         List<FieldErrorResponse> fieldErrorResponses = FieldErrorResponse.bindingResultToFieldErrorResponseList(bindingResult);
         int httpStatus = 400;
         StringBuilder message = new StringBuilder();
-
         fieldErrorResponses.stream().forEach(response -> message.append(response.field + " : " + response.reason + "\n"));
-
-
         return new ErrorResponse(httpStatus, message.toString(), fieldErrorResponses);
     }
 
@@ -63,6 +72,29 @@ public class ErrorResponse {
                             .reason(error.getDefaultMessage())
                             .build())
                     .collect(Collectors.toList());
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class ConstraintViolationErrorResponse {
+        private String propertyPath;
+        private Object rejectedValue;
+        private String reason;
+
+        public static List<ConstraintViolationErrorResponse> of(
+                Set<ConstraintViolation<?>> constraintViolations) {
+
+            List<ConstraintViolationErrorResponse> collect = constraintViolations.stream()
+                    .map(constraintViolation ->
+                            ConstraintViolationErrorResponse.builder()
+                                    .propertyPath(constraintViolation.getPropertyPath().toString())
+                                    .rejectedValue(constraintViolation.getInvalidValue().toString()) //rejectedValue 자체가 null일 수 있기때문에
+                                    .reason(constraintViolation.getMessage())
+                                    .build())
+                    .collect(Collectors.toList());
+            return collect;
         }
     }
 
