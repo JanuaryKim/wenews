@@ -21,7 +21,6 @@ server:
     encoding:
       force-response: true
 
-
 # path
 path:
   storage_path: ${storage_path}
