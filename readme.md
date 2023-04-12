@@ -1,10 +1,10 @@
 
-# 📃 News 게시판
+# 📃 WeNews 게시판
 
 <br>
 
 ## ✈️ 배포 링크 
-#### <a href="http://ec2-3-35-119-255.ap-northeast-2.compute.amazonaws.com:8085/"> 방귤방귤 바로가기</a>
+#### <a href="http://ec2-3-35-119-255.ap-northeast-2.compute.amazonaws.com:8085/"> WeNews 바로가기</a>
 
 <br>
 
