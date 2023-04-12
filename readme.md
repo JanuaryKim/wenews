@@ -1,8 +1,8 @@
 
 # 📃 WeNews 게시판
 <br>
-## ✈️ 배포 링크 
-#### <a href="http://ec2-3-35-119-255.ap-northeast-2.compute.amazonaws.com:8085/"> WeNews 바로가기</a>
+# ✈️ 배포 링크 
+## <a href="http://ec2-3-35-119-255.ap-northeast-2.compute.amazonaws.com:8085/"> WeNews 바로가기</a>
 
 ## 📃 프로젝트 소개
 
