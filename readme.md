@@ -28,3 +28,9 @@
     <img src="https://img.shields.io/badge/RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white">&nbsp;
 </div>
 
+
+## 📓 아키텍쳐
+
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FIBxLZ%2Fbtr9Nh0o6VP%2FYsOcDI8xS3RXL7lkx6Jkdk%2Fimg.png">
+
