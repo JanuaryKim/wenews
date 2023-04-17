@@ -26,6 +26,7 @@
     <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white">&nbsp;
     <img src="https://img.shields.io/badge/EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white">&nbsp;
     <img src="https://img.shields.io/badge/RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white">&nbsp;
+    <img src="https://img.shields.io/badge/Mustache-D24939?style=for-the-badge&logo=Mustache&logoColor=white">&nbsp;
 </div>
 
 <br>
