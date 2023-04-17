@@ -24,7 +24,7 @@ public class NewsDto {
         @Length(min = 3, max = 20)
         private String newsTitle;
 
-        @Length(min = 10, max = 300)
+        @Length(min = 10, max = 1000)
         private String newsContents;
     }
 
@@ -67,7 +67,7 @@ public class NewsDto {
         @Length(min = 3, max = 20)
         private String newsTitle;
 
-        @Length(min = 10, max = 300)
+        @Length(min = 10, max = 1000)
         private String newsContents;
     }
 }

@@ -13,7 +13,9 @@ var main = {
             _this.delete();
         })
 
+        this.setElements();
     },
+
 
     save : function() {
         var formData = new FormData();
@@ -120,11 +122,25 @@ var main = {
         });
     },
 
+    setElements: function () {
+        this.addEventListenerTxtArea();
+        var txtArea = document.getElementById("content");
+        txtArea.addEventListener("input", (event) => this.addEventListenerTxtArea());
+    },
+
+    addEventListenerTxtArea: function () {
+        var textarea = document.getElementById("content");
+
+        if(textarea.scrollHeight > textarea.clientHeight) //textarea height 확장
+            textarea.style.height= textarea.scrollHeight + "px";
+        else
+            textarea.style.height= (textarea.scrollHeight-18) + "px";
+    },
+
 
 }
 
 main.init();
-
 
 function imgDelete (clicked_id) {
     var id = clicked_id
