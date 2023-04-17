@@ -25,7 +25,7 @@ public class News extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @Column(length = 20)
+    @Column(length = 50)
     private String newsTitle;
 
     @Column(columnDefinition = "TEXT")

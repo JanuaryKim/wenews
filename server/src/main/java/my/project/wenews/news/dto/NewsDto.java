@@ -21,10 +21,10 @@ public class NewsDto {
     @SuperBuilder
     public static class Post extends NewsBaseDto{
 
-        @Length(min = 3, max = 20)
+        @Length(min = 3, max = 50)
         private String newsTitle;
 
-        @Length(min = 10, max = 1000)
+        @Length(min = 10, max = 2000)
         private String newsContents;
     }
 
@@ -64,10 +64,10 @@ public class NewsDto {
     @SuperBuilder
     public static class Put extends NewsBaseDto{
 
-        @Length(min = 3, max = 20)
+        @Length(min = 3, max = 50)
         private String newsTitle;
 
-        @Length(min = 10, max = 1000)
+        @Length(min = 10, max = 2000)
         private String newsContents;
     }
 }
